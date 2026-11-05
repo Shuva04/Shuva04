@@ -1,0 +1,3 @@
+const timeEl=document.querySelector("#time"),dateEl=document.querySelector("#date"),greetingEl=document.querySelector("#greeting");
+function updateClock(){const now=new Date();timeEl.textContent=now.toLocaleTimeString(undefined,{hour12:true});dateEl.textContent=now.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});const h=now.getHours();greetingEl.textContent=h<12?"Good morning":h<17?"Good afternoon": "Good evening";}
+document.querySelector("#theme").addEventListener("click",()=>document.body.classList.toggle("light"));updateClock();setInterval(updateClock,1000);
