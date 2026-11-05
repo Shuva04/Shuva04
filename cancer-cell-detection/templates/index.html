@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breast Cancer Classification Demo</title>
+<style>
+body{font:16px system-ui;background:#f4f6fb;color:#172033;margin:0;padding:32px}.card{max-width:620px;margin:auto;background:white;padding:28px;border-radius:18px;box-shadow:0 8px 30px #17203312}label{display:block;margin:16px 0 6px}input,button{box-sizing:border-box;width:100%;padding:12px;border:1px solid #ccd2df;border-radius:9px;font:inherit}button{margin-top:18px;background:#263c78;color:white;cursor:pointer}.notice{background:#fff4dc;padding:12px;border-radius:8px}.result{margin-top:18px;font-weight:600}
+</style></head>
+<body><main class="card"><h1>Breast Cancer Classification</h1>
+<p class="notice">Educational demo only. This model is not clinically validated and must never be used for diagnosis or treatment decisions.</p>
+<form id="form"><label for="radius">Mean radius</label><input id="radius" type="number" step="any" min="0.01" max="49.99" required>
+<label for="texture">Mean texture</label><input id="texture" type="number" step="any" min="0.01" max="59.99" required>
+<button>Run demo prediction</button></form><p id="result" class="result" aria-live="polite"></p></main>
+<script>
+document.querySelector("#form").addEventListener("submit",async e=>{e.preventDefault();const out=document.querySelector("#result");out.textContent="Processing…";try{const r=await fetch("/api/predict/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mean_radius:Number(document.querySelector("#radius").value),mean_texture:Number(document.querySelector("#texture").value)})});const data=await r.json();if(!r.ok)throw new Error(data.error||"Request failed");out.textContent="Dataset class: "+data.class+" (demo confidence "+(data.probability*100).toFixed(1)+"%). "+data.notice;}catch(err){out.textContent=err.message;}});
+</script></body></html>
