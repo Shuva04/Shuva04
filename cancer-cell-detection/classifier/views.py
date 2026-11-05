@@ -1,12 +1,14 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .model import predict
 
 def home(request):
     return render(request, "index.html")
 
+@csrf_exempt  # Public, stateless educational demo endpoint; add proper auth/CSRF before production use.
 @require_POST
 def predict_api(request):
     try:
